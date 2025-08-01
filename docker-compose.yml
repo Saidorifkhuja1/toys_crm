@@ -1,0 +1,38 @@
+
+services:
+  db:
+    container_name: db6
+    image: postgres:17
+    env_file:
+      - .env
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    container_name: web6
+    build: .
+    command: gunicorn config.wsgi:application --bind 0.0.0.0:${PORT}
+    volumes:
+      - .:/app
+      - ./staticfiles:/app/staticfiles
+    ports:
+      - "${PORT}:${PORT}"
+    depends_on:
+      - db
+    env_file:
+      - .env
+
+  bot:
+    container_name: bot6
+    build: .
+    command: python bot.py
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - db
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
