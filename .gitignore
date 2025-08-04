@@ -1,6 +1,7 @@
 venv
 .env
-**/migrations/
+**/migrations/*.py
+!**/migrations/__init__.py
 media
 templates
 staticfiles
