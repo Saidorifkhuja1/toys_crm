@@ -6,7 +6,7 @@ from core.enums import PaymentType, UserRole
 
 class Sale(BaseCreateModel):
     merchant = models.ForeignKey(
-        "members.User",
+        "user.User",
         on_delete=models.SET_NULL,
         limit_choices_to={"user_role": UserRole.MERCHANT},
         related_name="sales",

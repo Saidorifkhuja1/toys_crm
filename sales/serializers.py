@@ -3,7 +3,7 @@ from rest_framework import serializers
 from core.serializers import BaseSerializer, WritePaymentSerializer
 from debts.models import Debtor
 from debts.serializers import DebtorSerializer
-from members.serializers import UserSerializer
+from user.serializers import UserSerializer
 from products.models import Product
 from products.serializers import ProductBatchSerializer, ProductSerializer
 from sales.models import Payment

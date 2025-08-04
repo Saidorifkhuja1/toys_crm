@@ -23,10 +23,10 @@ from rest_framework_simplejwt.serializers import (
     TokenRefreshSerializer,
 )
 from core.viewsets import CoreViewSet, UpdateMessageMixin
-from members.serializers import UserSerializer
+from user.serializers import UserSerializer
 from debts.models import MerchantDebt
 from .serializers import SupplierSerializer
-from members.models import Supplier, User
+from user.models import Supplier, User
 from core.permissions import IsAdminUser
 
 

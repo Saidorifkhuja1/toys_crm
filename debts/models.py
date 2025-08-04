@@ -27,7 +27,7 @@ class SaleDebt(BaseCreateModel):
 class MerchantDebt(BaseCreateModel):
     initial_amount = models.PositiveBigIntegerField()
     paid_amount = models.PositiveBigIntegerField()
-    merchant = models.ForeignKey("members.User", on_delete=models.CASCADE)
+    merchant = models.ForeignKey("user.User", on_delete=models.CASCADE)
     product_batch = models.OneToOneField(
         "products.ProductBatch", on_delete=models.CASCADE
     )

@@ -9,7 +9,7 @@ from datetime import datetime
 from django.db.models import Sum, Count, Prefetch
 
 from core.pagination import GlobalPagination
-from members.serializers import UserSerializer
+from user.serializers import UserSerializer
 from sales.models import Sale, SaleItem, Payment
 from sales.serializers import SaleSerializer
 

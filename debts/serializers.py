@@ -1,4 +1,4 @@
-from members.serializers import UserSerializer
+from user.serializers import UserSerializer
 from products.serializers import ReadProductPaymentSerializer
 from rest_framework import serializers
 from django.db import models

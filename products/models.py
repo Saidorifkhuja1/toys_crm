@@ -38,7 +38,7 @@ class Product(BaseModel):
     product_type = models.CharField(max_length=10, choices=ProductType)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     supplier = models.ForeignKey(
-        to="members.Supplier", on_delete=models.CASCADE, null=False
+        to="user.Supplier", on_delete=models.CASCADE, null=False
     )
 
     def __str__(self):

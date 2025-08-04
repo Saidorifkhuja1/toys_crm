@@ -6,7 +6,7 @@ from core.enums import Actions
 class BaseCreateModel(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     created_by = models.ForeignKey(
-        to="members.User",
+        to="user.User",
         on_delete=models.SET_DEFAULT,
         null=True,
         related_name="created_%(class)ss",
@@ -21,7 +21,7 @@ class BaseCreateModel(models.Model):
 class BaseModel(BaseCreateModel):
     updated_at = models.DateTimeField(auto_now=True)
     updated_by = models.ForeignKey(
-        to="members.User",
+        to="user.User",
         on_delete=models.SET_DEFAULT,
         null=True,
         default=None,

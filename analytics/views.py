@@ -19,7 +19,7 @@ from .serializers import (
     TotalSerializer,
 )
 from products.models import Product, ProductBatch, Category
-from members.models import Supplier, User
+from user.models import Supplier, User
 from sales.models import Sale
 
 

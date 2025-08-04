@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from core.serializers import BaseModelSerializer, LimitedListSerializer
 from core.utils import base_read_only_fields
-from members.models import Supplier, User
+from user.models import Supplier, User
 
 
 class UserSerializer(serializers.ModelSerializer):

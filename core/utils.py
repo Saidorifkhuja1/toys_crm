@@ -6,7 +6,7 @@ from threading import Thread
 from rest_framework.exceptions import ValidationError
 from rest_framework.request import Request
 from debts.models import MerchantDebt
-from members.models import User
+from user.models import User
 from products.models import ProductBatch, ProductPayments
 
 

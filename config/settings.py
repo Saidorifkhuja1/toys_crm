@@ -48,10 +48,11 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "drf_yasg",
-    "members",
+    "user",
     "logs",
     "django_filters",
     "products",
+    'barn',
     "debts",
     "sales",
     "analytics",
@@ -101,7 +102,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = "config.urls"
-AUTH_USER_MODEL = "members.User"
+AUTH_USER_MODEL = "user.User"
 WSGI_APPLICATION = "config.wsgi.application"
 AUTH_PASSWORD_VALIDATORS = [
     {

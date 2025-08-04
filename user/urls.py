@@ -1,6 +1,6 @@
 from django.urls import path
 
-from members.views import (
+from user.views import (
     CustomTokenObtainPairView,
     CustomTokenRefreshView,
     get_user_profile,

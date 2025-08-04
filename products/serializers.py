@@ -5,7 +5,7 @@ from core.utils import base_read_only_fields
 from core.serializers import BaseModelSerializer, BaseSerializer, LimitedListSerializer
 from core.serializers import SalePaymentSerializer as ProductPaymentSerializer
 from .models import Category, Product, ProductBatch, ProductPayments
-from members.serializers import SupplierSerializer
+from user.serializers import SupplierSerializer
 
 
 class WriteProductPaymentSerializer(BaseSerializer):

@@ -8,7 +8,7 @@ from rest_framework.generics import ListAPIView
 
 from core.pagination import GlobalPagination
 from core.permissions import IsAdminUser
-from members.models import User
+from user.models import User
 from sales.models import Payment, Sale, SaleItem, SaleItemBatch, SalePayment
 from sales.filters import SaleFilter
 from sales.serializers import SaleSerializer

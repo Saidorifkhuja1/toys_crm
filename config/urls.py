@@ -13,7 +13,7 @@ from rest_framework import permissions
 from rest_framework.routers import DefaultRouter
 
 from logs.views import LogViewSet
-from members.views import MerchantViewSet, SupplierViewSet
+from user.views import MerchantViewSet, SupplierViewSet
 from products.views import (
     MediaCreateView,
     MediaDeleteView,
@@ -59,7 +59,8 @@ urlpatterns = [
     ),
     path("products/modify/<str:sku>/", product_detail, name="product-detail"),
     path("", include("django_prometheus.urls")),
-    path("auth/", include("members.urls")),
+    path("auth/", include("user.urls")),
+    path("barn/", include("barn.urls")),
     path("analytics/", include("analytics.urls")),
     path("sales/", include("sales.urls")),
     path("", include("debts.urls")),
