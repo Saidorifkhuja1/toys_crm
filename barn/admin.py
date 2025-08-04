@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import Barn
 
-# Register your models here.
+
+
+@admin.register(Barn)
+class BarnAdmin(admin.ModelAdmin):
+    list_display = ['name']
