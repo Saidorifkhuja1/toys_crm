@@ -3,6 +3,6 @@ venv
 **/migrations/*.py
 !**/migrations/__init__.py
 media
-templates
+#templates
 staticfiles
 __pycache__
