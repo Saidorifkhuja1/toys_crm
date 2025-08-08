@@ -14,6 +14,7 @@ from logs.models import BatchLog, ProductLog
 from products.filters import ProductFilter
 from products.utils import remove_product_image
 from sales.models import Sale
+from sales.serializers import EmptySerializer
 from .serializers import (
     ProductForSaleSerializer,
     ProductBatchSerializer,
@@ -226,7 +227,13 @@ class MediaCreateView(CreateAPIView):
 
 
 class MediaDeleteView(DestroyAPIView):
+    serializer_class = EmptySerializer
+    queryset = Product.objects.none()  # Swagger uchun kerak
+
     def destroy(self, request, *args, **kwargs):
+        if getattr(self, 'swagger_fake_view', False):
+            return Response(status=status.HTTP_200_OK)  # Swagger uchun short-circuit
+
         try:
             product = Product.objects.get(id=kwargs.get("pk"))
 
@@ -244,7 +251,6 @@ class MediaDeleteView(DestroyAPIView):
             return Response({"error": "Product not found"}, status=404)
         except Exception as e:
             return Response({"error": str(e)}, status=500)
-
 
 @api_view(["GET"])
 @permission_classes([IsAuthenticated])

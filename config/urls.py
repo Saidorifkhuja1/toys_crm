@@ -24,6 +24,19 @@ from products.views import (
     ProductViewSet,
 )
 
+# schema_view = get_schema_view(
+#     openapi.Info(
+#         title="Your API",
+#         default_version="v1",
+#         description="Your API description",
+#         terms_of_service="https://www.google.com/policies/terms/",
+#         contact=openapi.Contact(email="contact@yourdomain.com"),
+#         license=openapi.License(name="BSD License"),
+#     ),
+#     public=True,
+#     permission_classes=(permissions.AllowAny,),
+#     authentication_classes=[],
+# )
 schema_view = get_schema_view(
     openapi.Info(
         title="Your API",
@@ -35,8 +48,8 @@ schema_view = get_schema_view(
     ),
     public=True,
     permission_classes=(permissions.AllowAny,),
-    authentication_classes=[],
 )
+
 product_list_create = ProductViewSet.as_view({"get": "list", "post": "create"})
 product_detail = ProductViewSet.as_view(
     {"get": "retrieve", "patch": "partial_update", "delete": "destroy"}
@@ -61,6 +74,8 @@ urlpatterns = [
     path("", include("django_prometheus.urls")),
     path("auth/", include("user.urls")),
     path("barn/", include("barn.urls")),
+    path("halfproduct/", include("halfproduct.urls")),
+    path("workers/", include("workers.urls")),
     path("analytics/", include("analytics.urls")),
     path("sales/", include("sales.urls")),
     path("", include("debts.urls")),
@@ -71,6 +86,7 @@ urlpatterns = [
         TemplateView.as_view(template_name="swagger/swagger-ui.html"),
         name="custom-swagger-ui",
     ),
+    # path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path("swagger.json/", schema_view.without_ui(cache_timeout=0), name="schema-json"),
     path("media/upload/", MediaCreateView.as_view()),
     path("media/delete/<int:pk>/", MediaDeleteView.as_view()),
@@ -78,3 +94,5 @@ urlpatterns = [
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

@@ -31,15 +31,11 @@ class Product(BaseModel):
 
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, max_length=10000)
-    image = models.ImageField(
-        upload_to=product_image_upload_path, blank=True, null=True
-    )
+    image = models.ImageField(upload_to=product_image_upload_path, blank=True, null=True)
     sku = models.CharField(max_length=100, default=generate_sku, unique=True)
     product_type = models.CharField(max_length=10, choices=ProductType)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-    supplier = models.ForeignKey(
-        to="user.Supplier", on_delete=models.CASCADE, null=False
-    )
+    supplier = models.ForeignKey(to="user.Supplier", on_delete=models.CASCADE, null=False)
 
     def __str__(self):
         return self.name
@@ -49,9 +45,7 @@ class Product(BaseModel):
 
 
 class ProductBatch(BaseModel):
-    product = models.ForeignKey(
-        Product, on_delete=models.CASCADE, related_name="product_batches"
-    )
+    product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name="product_batches")
     quantity = models.PositiveIntegerField()
     buy_price = models.PositiveBigIntegerField()
     sell_price = models.PositiveBigIntegerField()
@@ -63,9 +57,7 @@ class ProductBatch(BaseModel):
 class ProductPayments(BaseCreateModel):
     amount = models.BigIntegerField()
     method = models.CharField(choices=PaymentType.choices)
-    product_batch = models.ForeignKey(
-        ProductBatch, on_delete=models.CASCADE, related_name="product_batch_payments"
-    )
+    product_batch = models.ForeignKey(ProductBatch, on_delete=models.CASCADE, related_name="product_batch_payments")
     exchange_rate = models.PositiveBigIntegerField(null=True)
 
     class Meta:

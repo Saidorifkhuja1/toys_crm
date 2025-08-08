@@ -49,6 +49,8 @@ INSTALLED_APPS = [
     "rest_framework",
     "drf_yasg",
     "user",
+    'workers',
+    'halfproduct',
     "logs",
     "django_filters",
     "products",

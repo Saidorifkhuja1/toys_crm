@@ -67,3 +67,15 @@ class DashboardIncomeViewSerializer(serializers.Serializer):
     low_stock_count = serializers.IntegerField()
     out_of_stock_count = serializers.IntegerField()
     top_selling_products = serializers.IntegerField()
+
+
+
+
+class EmptySerializer(serializers.Serializer):
+    pass
+
+
+class PaymentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Payment
+        fields = "__all__"

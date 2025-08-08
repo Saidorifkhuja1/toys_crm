@@ -21,6 +21,7 @@ from debts.models import Debtor, MerchantDebt, SaleDebt
 from core.viewsets import CoreReadOnlyViewSet, CoreViewSet
 from products.models import Product, ProductBatch, ProductPayments
 from sales.models import Payment, Sale, SalePayment
+from sales.serializers import EmptySerializer
 
 
 class SaleDebtViewSet(CoreReadOnlyViewSet):
@@ -188,6 +189,7 @@ def pay_debt(request):
 
 
 class PayMerchantDebtAPIView(PaymentMixin, UpdateAPIView):
+
     """
     POST /merchant-debts/{product_batch_id}/pay/
     Body: { exchange_rate: int, payments: [{ method, amount }, …] }
@@ -196,6 +198,7 @@ class PayMerchantDebtAPIView(PaymentMixin, UpdateAPIView):
 
     queryset = MerchantDebt.objects.all()
     permission_classes = [IsAuthenticated]
+    serializer_class = EmptySerializer
     http_method_names = ["post"]
     lookup_url_kwarg = "product_batch_id"
 

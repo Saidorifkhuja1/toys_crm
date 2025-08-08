@@ -1,7 +1,7 @@
 from rest_framework import serializers, status
 from rest_framework.response import Response
 from django.db import transaction, models
-
+from rest_framework import generics
 from django.db.models import Sum, F, Case, When, IntegerField, Value as V
 from django.db.models.functions import Coalesce
 from rest_framework.generics import ListAPIView
@@ -11,7 +11,7 @@ from core.permissions import IsAdminUser
 from user.models import User
 from sales.models import Payment, Sale, SaleItem, SaleItemBatch, SalePayment
 from sales.filters import SaleFilter
-from sales.serializers import SaleSerializer
+from sales.serializers import SaleSerializer, EmptySerializer, PaymentSerializer
 from core.viewsets import BaseMerchantIncomeOverview, CoreViewSet
 from products.models import ProductBatch, Product
 from debts.models import SaleDebt
@@ -185,7 +185,7 @@ class SaleViewSet(CoreViewSet):
 
 class AdminMerchantIncomeOverview(BaseMerchantIncomeOverview):
     permission_classes = [IsAdminUser]
-
+    serializer_class = EmptySerializer
     def get(self, request, *args, **kwargs):
         merchant_id = self.kwargs.get("merchant_id")
 
@@ -199,6 +199,7 @@ class AdminMerchantIncomeOverview(BaseMerchantIncomeOverview):
 
 
 class MerchantSelfIncomeOverview(BaseMerchantIncomeOverview):
+    serializer_class = EmptySerializer
 
     def get(self, request, *args, **kwargs):
         user = request.user
@@ -209,6 +210,7 @@ class MerchantSelfIncomeOverview(BaseMerchantIncomeOverview):
 class ProductSoldAPIView(ListAPIView):
     pagination_class = GlobalPagination
     permission_classes = [IsAdminUser]
+    serializer_class = EmptySerializer
 
     def get_queryset(self):
         return (
@@ -247,3 +249,8 @@ class ProductSoldAPIView(ListAPIView):
             {"product_name": product.name, "sold": product.sold} for product in queryset
         ]
         return self.get_paginated_response(data)
+
+
+class PaymentListAPIView(generics.ListAPIView):
+    queryset = Payment.objects.all()
+    serializer_class = PaymentSerializer

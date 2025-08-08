@@ -5,22 +5,17 @@ from sales.views import (
     ProductSoldAPIView,
     SaleViewSet,
     MerchantSelfIncomeOverview,
-    AdminMerchantIncomeOverview,
+    AdminMerchantIncomeOverview, PaymentListAPIView,
 )
 
 router = DefaultRouter()
 router.register(r"", SaleViewSet, basename="sale")
 
 urlpatterns = [
-    path(
-        "merchant-sale-income/<uuid:merchant_id>/",
-        AdminMerchantIncomeOverview.as_view(),
-        name="admin-merchant-income",
-    ),
-    path(
-        "my-income/", MerchantSelfIncomeOverview.as_view(), name="merchant-self-income"
-    ),
+    path("merchant-sale-income/<uuid:merchant_id>/",AdminMerchantIncomeOverview.as_view(),name="admin-merchant-income",),
+    path("my-income/", MerchantSelfIncomeOverview.as_view(), name="merchant-self-income"),
     path("product-sold/", ProductSoldAPIView.as_view()),
+    path('check_list/', PaymentListAPIView.as_view(), name='payment-list'),
 ]
 
 urlpatterns += router.urls

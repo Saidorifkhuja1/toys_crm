@@ -5,13 +5,7 @@ from core.enums import PaymentType, UserRole
 
 
 class Sale(BaseCreateModel):
-    merchant = models.ForeignKey(
-        "user.User",
-        on_delete=models.SET_NULL,
-        limit_choices_to={"user_role": UserRole.MERCHANT},
-        related_name="sales",
-        null=True,
-    )
+    merchant = models.ForeignKey("user.User",on_delete=models.SET_NULL,limit_choices_to={"user_role": UserRole.MERCHANT},related_name="sales",null=True,)
     debtor = models.ForeignKey(to="debts.Debtor", on_delete=models.SET_NULL, null=True)
     total_sold = models.PositiveBigIntegerField()
     total_paid = models.PositiveBigIntegerField(null=True)
@@ -54,9 +48,7 @@ class SalePayment(BaseCreateModel):
 
 
 class Payment(BaseCreateModel):
-    sale_payment = models.ForeignKey(
-        "SalePayment", on_delete=models.CASCADE, related_name="payments"
-    )
+    sale_payment = models.ForeignKey("SalePayment", on_delete=models.CASCADE, related_name="payments")
     method = models.CharField(choices=PaymentType.choices)
     amount = models.PositiveBigIntegerField()
 
