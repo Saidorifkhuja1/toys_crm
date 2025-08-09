@@ -1,5 +1,5 @@
 from django.db import models
-
+from halfproduct.models import HalfProduct
 from core.enums import PaymentType
 from core.models import BaseCreateModel, BaseModel
 from products.utils import generate_sku, product_image_upload_path
@@ -27,12 +27,15 @@ class Product(BaseModel):
     ProductType = (
         ("KG", "Kilogram"),
         ("PIECE", "Piece"),
+        ("METR", "metr"),
     )
 
     name = models.CharField(max_length=255)
     description = models.TextField(blank=True, max_length=10000)
     image = models.ImageField(upload_to=product_image_upload_path, blank=True, null=True)
     sku = models.CharField(max_length=100, default=generate_sku, unique=True)
+    halfproduct = models.ForeignKey(HalfProduct, on_delete=models.CASCADE)
+    amount = models.DecimalField(max_digits=10, decimal_places=2)
     product_type = models.CharField(max_length=10, choices=ProductType)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     supplier = models.ForeignKey(to="user.Supplier", on_delete=models.CASCADE, null=False)

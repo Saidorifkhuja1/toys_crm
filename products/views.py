@@ -55,6 +55,24 @@ class ProductViewSet(PaymentMixin, InventoryLoggingMixin, BaseProductViewSet):
         batch_data = validated_data.pop("product_batch")
         payment_data = batch_data.pop("payment")
 
+        # 🔹 HalfProduct zaxirasini tekshirish va kamaytirish
+        halfproduct = validated_data["halfproduct"]
+        product_type = validated_data["product_type"]
+        amount = validated_data["amount"]
+
+        if halfproduct.product_type != product_type:
+            raise ValidationError({
+                "product_type": f"Mahsulot turi mos emas. Yarim mahsulot turi: {halfproduct.product_type}"
+            })
+
+        if amount > halfproduct.amount:
+            raise ValidationError({
+                "amount": f"Yarim mahsulotda yetarli miqdor yo‘q (mavjud: {halfproduct.amount})"
+            })
+
+        halfproduct.amount -= amount
+        halfproduct.save()
+
         # Create product
         product = Product.objects.create(supplier_id=supplier_id, **validated_data)
 
@@ -63,6 +81,7 @@ class ProductViewSet(PaymentMixin, InventoryLoggingMixin, BaseProductViewSet):
             product=product, created_by=user, **batch_data
         )
         self.product_batch = product_batch
+
         # Use shared utility for collecting payments
         payments, paid_amount = self.collect_payments(user=user, payment=payment_data)
 
@@ -78,6 +97,7 @@ class ProductViewSet(PaymentMixin, InventoryLoggingMixin, BaseProductViewSet):
                 paid_amount=paid_amount,
                 created_by=user,
             )
+
         ProductPayments.objects.bulk_create(payments)
         return Response({"id": product.id}, status=status.HTTP_201_CREATED)
 
@@ -104,7 +124,6 @@ class ProductViewSet(PaymentMixin, InventoryLoggingMixin, BaseProductViewSet):
         elif batches:
             raise ValidationError("Omborda bu mahsulotni partiyalari mavjud!")
         return super().perform_destroy(instance)
-
 
 class ProductBatchViewSet(BaseProductViewSet, InventoryLoggingMixin, PaymentMixin):
     queryset = ProductBatch.objects.filter(deleted=False).order_by("-created_at")
