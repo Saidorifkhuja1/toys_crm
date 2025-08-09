@@ -34,3 +34,16 @@ class BarnDeleteView(generics.DestroyAPIView):
 class BarnListView(generics.ListAPIView):
     queryset = Barn.objects.all()
     serializer_class = BarnSerializer
+
+
+class BarnSearchAPIView(generics.ListAPIView):
+    serializer_class = BarnSerializer
+    permission_classes = [IsAdminUser]
+
+    def get_queryset(self):
+        queryset = Barn.objects.all()
+        name = self.request.query_params.get('name')
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+        return queryset
+

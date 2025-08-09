@@ -34,3 +34,14 @@ class HalfProductListView(generics.ListAPIView):
     queryset = HalfProduct.objects.all()
     serializer_class = HalfProductSerializer
     permission_classes = [IsAdminUser]
+
+class HalfProductSearchAPIView(generics.ListAPIView):
+    serializer_class = HalfProductSerializer
+    permission_classes = [IsAdminUser]
+
+    def get_queryset(self):
+        queryset = HalfProduct.objects.all()
+        name = self.request.query_params.get('name')
+        if name:
+            queryset = queryset.filter(name__icontains=name)
+        return queryset

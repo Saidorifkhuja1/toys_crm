@@ -4,6 +4,7 @@ from .models import Worker
 from rest_framework import generics, status
 from rest_framework.response import Response
 from .serializers import *
+from django.db.models import Q
 
 
 class WorkerCreateView(generics.CreateAPIView):
@@ -58,3 +59,14 @@ class WorkerListView(generics.ListAPIView):
 #         }, status=status.HTTP_200_OK)
 
 
+class WorkerSearchAPIView(generics.ListAPIView):
+    serializer_class = WorkerSerializer
+
+    def get_queryset(self):
+        queryset = Worker.objects.all()
+        name = self.request.query_params.get('name')
+        if name:
+            queryset = queryset.filter(
+                Q(name__icontains=name) | Q(last_name__icontains=name)
+            )
+        return queryset

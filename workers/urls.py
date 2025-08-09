@@ -8,6 +8,7 @@ urlpatterns = [
     path('workers/<uuid:uid>/update/', WorkerUpdateView.as_view()),
     path('workers/<uuid:uid>/delete/', WorkerDeleteView.as_view()),
     # path('workers/<uuid:uid>/pay-salary/', WorkerSalaryPaymentView.as_view()),
+    path('workers_search/', WorkerSearchAPIView.as_view()),
 
 
 ]

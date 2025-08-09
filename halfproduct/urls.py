@@ -4,7 +4,7 @@ from .views import (
     HalfProductRetrieveView,
     HalfProductUpdateView,
     HalfProductDeleteView,
-    HalfProductListView
+    HalfProductListView, HalfProductSearchAPIView
 )
 
 urlpatterns = [
@@ -13,4 +13,5 @@ urlpatterns = [
     path('halfproduct_details<uuid:uid>/', HalfProductRetrieveView.as_view()),
     path('halfproduct_update/<uuid:uid>/', HalfProductUpdateView.as_view()),
     path('halfproduct_delete/<uuid:uid>/', HalfProductDeleteView.as_view()),
+    path('half-products/search/', HalfProductSearchAPIView.as_view()),
 ]
