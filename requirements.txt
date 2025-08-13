@@ -12,10 +12,13 @@ Django==5.2.1
 django-auditlog==3.1.2
 django-cors-headers==4.7.0
 django-filter==25.1
+django-jazzmin==3.0.1
+django-prometheus==2.4.1
 djangorestframework==3.16.0
 djangorestframework_simplejwt==5.5.0
 drf-yasg==1.21.10
 everapi==0.1.1
+Faker==37.5.3
 freecurrencyapi==0.1.0
 frozenlist==1.7.0
 gunicorn==23.0.0
@@ -23,8 +26,10 @@ idna==3.10
 inflection==0.5.1
 magic-filter==1.0.12
 multidict==6.4.4
+numpy==2.3.2
 packaging==25.0
 pillow==11.2.1
+prometheus_client==0.22.1
 propcache==0.3.2
 psycopg2-binary==2.9.10
 pydantic==2.11.7
@@ -40,9 +45,7 @@ six==1.17.0
 sqlparse==0.5.3
 typing-inspection==0.4.1
 typing_extensions==4.14.0
+tzdata==2025.2
 uritemplate==4.1.1
 urllib3==2.4.0
 yarl==1.20.1
-django-prometheus
-faker
-numpy
