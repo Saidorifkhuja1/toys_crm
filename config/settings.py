@@ -3,7 +3,9 @@ import os
 from datetime import timedelta
 from dotenv import load_dotenv
 
-
+# Third-party API keys and credentials
+TEXTBEE_API_KEY = os.getenv("TEXTBEE_API_KEY", "")
+TEXTBEE_BASE_URL = os.getenv("TEXTBEE_BASE_URL", "https://api.textbee.io/send")
 BASE_DIR = Path(__file__).resolve().parent.parent
 load_dotenv(dotenv_path=os.path.join(BASE_DIR, ".env"))
 SECRET_KEY = os.getenv("DJANGO_SECRET_KEY")
@@ -38,6 +40,7 @@ DATABASES = {
 # CORS_ALLOWED_ORIGINS = ["*"]
 CORS_ALLOW_ALL_ORIGINS = True
 INSTALLED_APPS = [
+    'jazzmin',
     "django_prometheus",
     "django.contrib.admin",
     "django.contrib.auth",

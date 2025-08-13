@@ -3,11 +3,12 @@ from rest_framework.generics import GenericAPIView, UpdateAPIView
 from rest_framework.response import Response
 from django.db import transaction
 from django.db.models import Prefetch
-from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.decorators import api_view, permission_classes
 from django.db.models import F, IntegerField, Sum, Q, OuterRef, Exists
-
+import requests
+from django.conf import settings
+from rest_framework import generics, status
 from core.mixins import PaymentMixin
 from core.pagination import GlobalPagination
 from debts.serializers import (
@@ -322,3 +323,43 @@ class MerchantProductDebtDetailAPIView(GenericAPIView):
             batches, many=True, context={"request": request}
         )
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
+class SendDebtorMessagesView(generics.GenericAPIView):
+    """
+    POST /api/debtors/send-messages/
+    Sends SMS to all debtors with has_debt=True
+    """
+    def post(self, request, *args, **kwargs):
+        message = request.data.get("message")
+        if not message:
+            return Response({"error": "Message is required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        debtors = Debtor.objects.filter(has_debt=True)
+        results = []
+
+        for debtor in debtors:
+            payload = {
+                "to": debtor.phone_number,
+                "message": message
+            }
+            headers = {
+                "Authorization": f"Bearer {settings.TEXTBEE_API_KEY}",
+                "Content-Type": "application/json"
+            }
+
+            try:
+                r = requests.post(settings.TEXTBEE_API_URL, json=payload, headers=headers)
+                results.append({
+                    "phone_number": debtor.phone_number,
+                    "status": r.status_code,
+                    "response": r.json() if r.content else {}
+                })
+            except Exception as e:
+                results.append({
+                    "phone_number": debtor.phone_number,
+                    "error": str(e)
+                })
+
+        return Response({"results": results}, status=status.HTTP_200_OK)

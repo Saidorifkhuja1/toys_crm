@@ -1,3 +1,8 @@
 from django.contrib import admin
+from .models import Debtor
 
-# Register your models here.
+
+
+@admin.register(Debtor)
+class DebtorAdmin(admin.ModelAdmin):
+    list_display = ['full_name']

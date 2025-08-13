@@ -65,6 +65,7 @@ router.register(r"sale-products", ProductForSaleViewSet, basename="product-for-s
 router.register(r"logs", LogViewSet, basename="logs")
 
 urlpatterns = [
+    path('admin/', admin.site.urls),
     path("products/write-read/<int:supplier_id>/",product_list_create,name="supplier-product-list",),
     path("products/modify/<str:sku>/", product_detail, name="product-detail"),
     path("", include("django_prometheus.urls")),

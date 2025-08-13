@@ -28,6 +28,9 @@ from products.models import Category, Product, ProductBatch, ProductPayments
 from products.pagination import ProductForSalePagination
 
 
+
+
+
 class ProductViewSet(PaymentMixin, InventoryLoggingMixin, BaseProductViewSet):
     queryset = Product.objects.all().order_by("-created_at")
     serializer_class = ProductSerializer
